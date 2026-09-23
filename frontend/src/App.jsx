@@ -18,10 +18,6 @@ import NotFound from './components/NotFound'
 
 const appRouter = createBrowserRouter([
   {
-    path: "*",
-    element: <NotFound />
-  },
-  {
     path: "/",
     element: <Home />
   },
@@ -116,6 +112,10 @@ const appRouter = createBrowserRouter([
         <Applicants />
       </ProtectedRoute>
     )
+  },
+  {
+    path: "*",
+    element: <NotFound />
   }
 ])
 
