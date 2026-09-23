@@ -14,8 +14,13 @@ import CompanySetup from './components/admin/CompanySetup'
 import Applicants from './components/admin/Applicants'
 import JobCreate from './components/admin/JobCreate'
 import JobSetup from './components/admin/JobSetup'
+import NotFound from './components/NotFound'
 
 const appRouter = createBrowserRouter([
+  {
+    path: "*",
+    element: <NotFound />
+  },
   {
     path: "/",
     element: <Home />

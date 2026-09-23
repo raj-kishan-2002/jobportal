@@ -1,4 +1,5 @@
 import express from 'express';
+import ExpressError from './utils/expressError.js';
 import cookieParser from 'cookie-parser';
 import cors from 'cors';
 import dotenv from 'dotenv';
@@ -39,6 +40,19 @@ app.use("/api/v1/user", userRoute);
 app.use("/api/v1/company", companyRoute);
 app.use("/api/v1/job", jobRoute);
 app.use("/api/v1/application", applicationRoute);
+
+app.all(/(.*)/, (req, res, next) => {
+  next(new ExpressError('Page Not Found', 404));
+});
+
+app.use((err, req, res, next) => {
+  const { statusCode = 500, message = "Something went wrong" } = err;
+
+  res.status(statusCode).json({
+    message,
+    success: false
+  });
+});
 
 app.listen(PORT, () => {
   connectDB();
