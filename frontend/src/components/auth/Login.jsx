@@ -46,9 +46,13 @@ const Login = () => {
 
             if (res.data.success) {
                 dispatch(setUser(res.data.user));
-                navigate("/");
+
+                const from = location.state?.from?.pathname || "/";
+
+                navigate(from, { replace: true });
                 toast.success(res.data.message);
             }
+
         } catch (error) {
             console.log(error);
 
