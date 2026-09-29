@@ -17,6 +17,14 @@ const Navbar = () => {
     const dispatch = useDispatch();
     const navigate = useNavigate();
 
+    const handleLogoClick = () => {
+        if (user?.role === "student") {
+            navigate("/");
+        } else if (user?.role === "recruiter") {
+            navigate("/admin/companies");
+        }
+    };
+
     const logoutHandler = async () => {
         try {
             const res = await axios.get(`${USER_API_END_POINT}/logout`, { withCredentials: true });
@@ -62,7 +70,9 @@ const Navbar = () => {
     return (
         <div className='bg-white'>
             <div className='flex items-center justify-between mx-auto max-w-7xl h-16'>
-                <div>
+                <div onClick={handleLogoClick}
+                    className="cursor-pointer"
+                >
                     <h1 className='text-4xl font-bold' >Job<span className='text-[#f83002]'>Portal</span></h1>
                 </div>
 

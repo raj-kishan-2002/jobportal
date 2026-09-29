@@ -19,7 +19,7 @@ const Job = ({ job }) => {
         return days;
     }
     return (
-        <div className="p-5 rounded-md shadow-lg bg-white border border-gray-100">
+        <div className="p-5 rounded-md shadow-lg bg-white border border-gray-100 h-[380px] flex flex-col">
             <div className="flex items-center justify-between">
                 <p className="text-gray-500 text-sm">{daysAgoFunction(job?.createdAt) === 0 ? "Today" : `${daysAgoFunction(job?.createdAt)} days ago`}</p>
                 <Button variant="outline" className="rounded-full" size="icon"><Bookmark /></Button>
@@ -39,9 +39,9 @@ const Job = ({ job }) => {
 
             <div>
                 <h1 className="font-bold text-lg my-2">{job?.title}</h1>
-                <p className="text-sm text-gray-600">{job?.description}</p>
+                <p className="text-sm text-gray-600 line-clamp-3">{job?.description}</p>
             </div>
-            <div className="flex item-center gap-2 mt-4">
+            <div className="flex item-center gap-2 mt-auto">
                 <Badge className="text-blue-700 font-bold text-sm" variant="ghost"> {job?.position} Positions </Badge>
                 <Badge className="text-[#F83002] font-bold text-sm" variant="ghost"> {job?.jobType} </Badge>
                 <Badge className="text-[#7209B7] font-bold text-sm" variant="ghost"> {job?.salary}LPA </Badge>

@@ -13,8 +13,6 @@ import defaultUserLogo from "../assets/defaultUserLogo.jfif";
 import useGetAppliedJobs from "@/hooks/useGetAppliedJobs"
 import { useNavigate } from "react-router-dom"
 
-const isResume = true;
-
 
 const Profile = () => {
 
@@ -60,7 +58,7 @@ const Profile = () => {
                 <div className="grid w-full max-w-sm items-center gap-1.5">
                     <Label className="text-md font-bold">Resume</Label>
                     {
-                        isResume ? <a target="blank" href={user?.profile?.resume} className="text-blue-500 hover:underline cursor-pointer" >{user?.profile?.resumeOriginalName}</a> : <span>NA</span>
+                        user?.profile?.resume ? <a target="blank" href={user?.profile?.resume} className="text-blue-500 hover:underline cursor-pointer" >{user?.profile?.resumeOriginalName}</a> : <span>NA</span>
                     }
                 </div>
             </div>
