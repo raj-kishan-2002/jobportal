@@ -29,15 +29,16 @@ const Navbar = () => {
         try {
             const res = await axios.get(`${USER_API_END_POINT}/logout`, { withCredentials: true });
             if (res.data.success) {
-                dispatch(setUser(null));
-                navigate("/");
                 toast.success(res.data.message);
             }
         } catch (err) {
             console.log(err);
-            toast.error(err.response.data.message);
+            toast.error(err.response?.data?.message || "Logout request failed");
+        } finally {
+            dispatch(setUser(null));
+            navigate("/");
         }
-    }
+    };
 
     const deleteAccountHandler = async () => {
         const confirmDelete = window.confirm(

@@ -15,6 +15,8 @@ import Applicants from './components/admin/Applicants'
 import JobCreate from './components/admin/JobCreate'
 import JobSetup from './components/admin/JobSetup'
 import NotFound from './components/NotFound'
+import GenerateReport from './components/GenerateReport'
+import InterviewReport from './components/InterviewReport'
 
 const appRouter = createBrowserRouter([
   {
@@ -54,6 +56,22 @@ const appRouter = createBrowserRouter([
     element: (
       <ProtectedRoute allowedRoles={["student"]}>
         <Profile />
+      </ProtectedRoute>
+    )
+  },
+  {
+    path: "/interview",
+    element: (
+      <ProtectedRoute allowedRoles={["student"]}>
+        <GenerateReport />
+      </ProtectedRoute>
+    )
+  },
+  {
+    path: "/interview/:interviewId",
+    element: (
+      <ProtectedRoute allowedRoles={["student"]}>
+        <InterviewReport />
       </ProtectedRoute>
     )
   },

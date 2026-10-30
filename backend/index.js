@@ -8,6 +8,7 @@ import userRoute from './routes/user.js';
 import companyRoute from './routes/company.js';
 import jobRoute from './routes/job.js';
 import applicationRoute from './routes/application.js';
+import reportRoute from './routes/interviewReport.js';
 import helmet from "helmet";
 import compression from "compression";
 
@@ -40,6 +41,7 @@ app.use("/api/v1/user", userRoute);
 app.use("/api/v1/company", companyRoute);
 app.use("/api/v1/job", jobRoute);
 app.use("/api/v1/application", applicationRoute);
+app.use("/api/v1/interview", reportRoute);
 
 app.all(/(.*)/, (req, res, next) => {
   next(new ExpressError('Page Not Found', 404));
