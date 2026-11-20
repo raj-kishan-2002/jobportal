@@ -243,8 +243,7 @@ export const generateinterviewReport = async ({
     return interviewReport;
 
   } catch (error) {
-    console.error("Gemini Interview Report Error:", error);
-    throw error;
+    console.log("Gemini Interview Report Error:", error);
   }
 };
 
@@ -268,20 +267,27 @@ const resumePdfSchema = z.fromJSONSchema(
 
 const generatePdfFromHtml = async (htmlContent) => {
   const browser = await puppeteer.launch();
-  const page = await browser.newPage();
-  await page.setContent(htmlContent, { waitUntil: "networkidle0" })
-  const pdfBuffer = await page.pdf({
-    format: "A4", margin: {
-      top: "20mm",
-      bottom: "20mm",
-      left: "15mm",
-      right: "15mm",
-    }
-  });
+  try {
+    const page = await browser.newPage();
+    await page.setContent(htmlContent, { waitUntil: "domcontentloaded" })
+    const pdfBuffer = await page.pdf({
+      format: "A4", margin: {
+        top: "20mm",
+        bottom: "20mm",
+        left: "15mm",
+        right: "15mm",
+      }
+    });
 
-  browser.close();
+    return pdfBuffer;
 
-  return pdfBuffer;
+  } catch (error) {
+    console.log("Resume PDF report Error:", error);
+
+  } finally {
+    await browser.close();
+  }
+
 }
 
 export const generateresumePdf = async ({
