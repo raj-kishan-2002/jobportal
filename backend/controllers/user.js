@@ -2,6 +2,7 @@ import { User } from '../models/user.js';
 import { Job } from '../models/job.js';
 import { Company } from '../models/company.js';
 import { Application } from '../models/application.js';
+import { Report } from '../models/interviewReport.js';
 import bcrypt from 'bcrypt';
 import jwt from 'jsonwebtoken';
 import getDataUri from '../utils/datauri.js';
@@ -309,6 +310,10 @@ export const deleteUser = async (req, res) => {
 
       await Application.deleteMany({
         applicant: userId
+      });
+
+      await Report.deleteMany({
+        user: userId
       });
 
       await User.findByIdAndDelete(userId);

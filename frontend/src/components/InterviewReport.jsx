@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
 import { useInterview } from "@/hooks/useInterview";
-import { useParams } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
 import { setLoading } from "@/redux/authSlice";
 import {
@@ -17,20 +17,23 @@ import {
   CheckCircle2,
   FileText,
   AlertCircle,
+  Trash2,
 } from "lucide-react";
 import Navbar from "./shared/Navbar";
 
 const InterviewReport = () => {
-  const { getReportById, getResumePdf } = useInterview();
+  const { getReportById, getResumePdf, deleteReport } = useInterview();
   const { loading } = useSelector((state) => state.auth);
   const { interviewId } = useParams();
   const dispatch = useDispatch();
+  const navigate = useNavigate();
 
   const [report, setReport] = useState(null);
   const [activeTab, setActiveTab] = useState("technical");
   const [openQuestions, setOpenQuestions] = useState({});
   const [completedTasks, setCompletedTasks] = useState({});
   const [isDownloading, setIsDownloading] = useState(false);
+  const [isDeleting, setIsDeleting] = useState(false);
 
   // Your existing useEffect logic — unchanged
   useEffect(() => {
@@ -67,9 +70,28 @@ const InterviewReport = () => {
   const handleDownloadResume = async () => {
     try {
       setIsDownloading(true);
-      await getResumePdf(interviewId);
+      await deleteReport(interviewId);
+    } catch (error) {
+      toast.error(error.message);
     } finally {
       setIsDownloading(false);
+    }
+  };
+
+  const handleDeleteReport = async () => {
+    try {
+      setIsDeleting(true);
+      const res = await deleteReport(interviewId);
+      if (res) {
+        navigate("/interview");
+      }
+
+    } catch (error) {
+      console.log(error.message);
+
+      toast.error(error.message);
+    } finally {
+      setIsDeleting(false);
     }
   };
 
@@ -129,7 +151,7 @@ const InterviewReport = () => {
   return (
     <main className="min-h-screen bg-slate-50">
       <Navbar />
-      <div className="mx-auto max-w-[1500px]">
+      <div className="mx-auto max-w-[1500px] px-4 sm:px-6 py-8">
 
         {/* Header */}
         <header className="mb-6">
@@ -270,6 +292,25 @@ const InterviewReport = () => {
                 <>
                   <Download size={17} />
                   Download Resume
+                </>
+              )}
+            </button>
+
+            <button
+              type="button"
+              onClick={handleDeleteReport}
+              disabled={isDeleting}
+              className="mt-5 flex w-full items-center justify-center gap-2 rounded-xl bg-red-600 px-3 py-3 text-sm font-semibold text-white transition hover:bg-red-700 disabled:cursor-not-allowed disabled:opacity-70"
+            >
+              {isDeleting ? (
+                <>
+                  <Loader2 size={17} className="animate-spin" />
+                  Deleting...
+                </>
+              ) : (
+                <>
+                  <Trash2 size={17} />
+                  Delete Report
                 </>
               )}
             </button>

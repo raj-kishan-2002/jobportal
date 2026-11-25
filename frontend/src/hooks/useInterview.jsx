@@ -35,7 +35,8 @@ export const useInterview = () => {
         {
           withCredentials: true,
           responseType: "blob",
-        });
+        }
+      );
       const url = window.URL.createObjectURL(new Blob([res.data], { type: "application/pdf" }));
       const link = document.createElement("a");
       link.href = url;
@@ -50,6 +51,19 @@ export const useInterview = () => {
     }
   }
 
-  return { getReportById, getAllReports, getResumePdf }
+  const deleteReport = async (interviewId) => {
+    try {
+      const res = axios.delete(`${INTERVIEW_REPORT_API_END_POINT}/report/delete/${interviewId}`, { withCredentials: true });
+      if (res.data.success) {
+        console.log(res);
+        return res.data;
+
+      }
+    } catch (error) {
+      console.log(error);
+    }
+  }
+
+  return { getReportById, getAllReports, getResumePdf, deleteReport }
 
 };

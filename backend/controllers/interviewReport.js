@@ -126,3 +126,32 @@ export const generateResumePdf = async (req, res) => {
   }
 
 }
+
+export const deleteReport = async (req, res) => {
+
+  try {
+    const { interviewId } = req.params;
+    const userId = req.id;
+
+    const report = await Report.findOneAndDelete({ _id: interviewId, user: userId });
+
+    if (!report) {
+      return res.status(404).json({
+        message: "You can't delete this report",
+        success: false,
+      });
+    }
+    res.status(200).json({
+      message: "Report deleted successfully",
+      success: true,
+    });
+
+  } catch (error) {
+    console.log(error);
+    res.status(500).json({
+      message: "Internal server error",
+      success: false,
+      error: error.message
+    });
+  }
+}
